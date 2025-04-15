@@ -1,9 +1,4 @@
-API RESTful de Gestión de Usuarios - Spring Boot JPA
-Java
-Spring Boot
-H2 Database
-
-API RESTful para creación y gestión de usuarios con autenticación JWT, desarrollada con Spring Boot y JPA.
+# API RESTful para creación y gestión de usuarios con autenticación JWT, desarrollada con Spring Boot y JPA.
 
 📋 Tecnologías Utilizadas
 Java 21
@@ -80,7 +75,7 @@ level:
 org.springframework: INFO
 com.test.users: DEBUG
 
-Compilar y ejecutar:
+# Compilar y ejecutar:
 
 mvn clean install
 mvn spring-boot:run
@@ -94,7 +89,7 @@ User: sa
 
 Password: (dejar vacío)
 
-📊 Estructura del Proyecto
+# 📊 Estructura del Proyecto
 
 src/
 ├── main/
@@ -116,11 +111,11 @@ src/
 │       ├── application.properties
 │       └── schema.sql 
 
-🔍 Endpoints Disponibles
+# 🔍 Endpoints Disponibles
 1. Crear Usuario
    POST /users
 
-Request:
+# Request:
 
 json
 
@@ -136,7 +131,8 @@ json
 }
 ]
 }
-Response Exitosa (201 Created):
+
+# Response Exitosa (201 Created):
 
 json
 
