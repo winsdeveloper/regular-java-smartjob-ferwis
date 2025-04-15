@@ -1,16 +1,20 @@
 package com.test.users.regular_java_smartjob.config;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import java.util.Base64;
 import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
+@Log4j2
 public class JwtTokenProvider {
 
   @Value("${jwt.secret}")
@@ -18,6 +22,11 @@ public class JwtTokenProvider {
 
   @Value("${jwt.expiration}")
   private long expiration;
+
+  private SecretKey getSigningKey() {
+    byte[] keyBytes = Base64.getDecoder().decode(secret);
+    return Keys.hmacShaKeyFor(keyBytes);
+  }
 
   public String generateToken(String email) {
     Date now = new Date();
@@ -27,13 +36,14 @@ public class JwtTokenProvider {
         .setSubject(email)
         .setIssuedAt(now)
         .setExpiration(expiryDate)
-        .signWith(SignatureAlgorithm.HS512, secret)
+        .signWith(getSigningKey(), SignatureAlgorithm.HS512)
         .compact();
   }
 
   public String getEmailFromToken(String token) {
-    Claims claims = Jwts.parser()
-        .setSigningKey(secret)
+    Claims claims = Jwts.parserBuilder()
+        .setSigningKey(getSigningKey())
+        .build()
         .parseClaimsJws(token)
         .getBody();
 
@@ -42,10 +52,22 @@ public class JwtTokenProvider {
 
   public boolean validateToken(String token) {
     try {
-      Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+      Jwts.parserBuilder()
+          .setSigningKey(getSigningKey())
+          .build()
+          .parseClaimsJws(token);
       return true;
-    } catch (Exception ex) {
-      return false;
+    } catch (SignatureException ex) {
+      log.error("Firma JWT inválida");
+    } catch (MalformedJwtException ex) {
+      log.error("Token JWT malformado");
+    } catch (ExpiredJwtException ex) {
+      log.error("Token JWT expirado");
+    } catch (UnsupportedJwtException ex) {
+      log.error("Token JWT no soportado");
+    } catch (IllegalArgumentException ex) {
+      log.error("JWT claims string vacío");
     }
+    return false;
   }
 }

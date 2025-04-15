@@ -20,7 +20,7 @@ spring:
     show-sql: true
 
 jwt:
-  secret: secretKey
+  secret: 8Zl7W8Lg+3+mGNjWY6uTKCPAQqGs8QHdEKUAMuLWHQ0qhcA8L3+HN6iXwdIB9P3m8tFcDzvpDnBjtssACbK2MQ==
   expiration: 86400000 # 24h
 
 logging:
