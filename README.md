@@ -157,11 +157,87 @@ json
 "isActive": true
 }
 }
+2. lista de usuarios GET /users
+
+# Response Exitosa (200 OK):
+
+json
+
+{
+"status": "success",
+"message": "",
+"data": [
+{
+"id": "5c99250c-afe4-463a-ba40-7eabec482c36",
+"name": "ferwis anazco",
+"email": "ferwis@prueba.com",
+"phones": [
+{
+"number": "1234567",
+"cityCode": null,
+"countryCode": null
+}
+],
+"created": "2025-04-16T09:48:46.659575",
+"modified": "2025-04-16T09:48:46.659575",
+"lastLogin": "2025-04-16T09:48:46.395424",
+"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZXJ3aXNAcHJ1ZWJhLmNvbSIsImlhdCI6MTc0NDgxMTMyNiwiZXhwIjoxNzQ0ODk3NzI2fQ.6yNcnBjM8tbyQltJK9qZVINr-Bsa-GyyudtAF8hWYC4xgr_MSaoc7ml28CLUuNNBkxPAn4s8Ig3oPVqMcoC6Lg",
+"isActive": true
+},
+{
+"id": "bdacc397-f50a-49b6-8273-a00745a3b71b",
+"name": "ferwis anazco",
+"email": "ferwis@pruebaa.com",
+"phones": [
+{
+"number": "1234567",
+"cityCode": null,
+"countryCode": null
+}
+],
+"created": "2025-04-16T09:49:02.712841",
+"modified": "2025-04-16T09:49:02.712841",
+"lastLogin": "2025-04-16T09:49:02.706494",
+"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZXJ3aXNAcHJ1ZWJhYS5jb20iLCJpYXQiOjE3NDQ4MTEzNDIsImV4cCI6MTc0NDg5Nzc0Mn0.QwVDRBcZ_sIOn0ukCUwXdPfVa07Ywa-tPFkfggAPyl8O__k2no8fP8zkemuGn_zyubbXt0TA-2ba8F4ZV73zPA",
+"isActive": true
+}
+]
+}
+
+3. obtener usuario by id GET /users/{ID}
+
+# Response Exitosa (200 OK):
+{
+"status": "success",
+"message": "Usuario con id: ffa7648d-a68e-4778-8552-4f34071e9366 retornado exitosamente",
+"data": {
+"id": "ffa7648d-a68e-4778-8552-4f34071e9366",
+"name": "ferwis anazco",
+"email": "ferwis@pruebaa.com",
+"phones": [
+{
+"number": "1234567",
+"cityCode": null,
+"countryCode": null
+}
+],
+"created": "2025-04-16T10:21:56.609684",
+"modified": "2025-04-16T10:21:56.609684",
+"lastLogin": "2025-04-16T10:21:55.998695",
+"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZXJ3aXNAcHJ1ZWJhYS5jb20iLCJpYXQiOjE3NDQ4MTMzMTUsImV4cCI6MTc0NDg5OTcxNX0.TQZvHq29hQtLRxL95FXEaOPOVJM1ozPNeiJ3NlJTZrJLUyszS5a6LkRgQP37dnJ4fCuOI3rR24N5j16XeYOHwg",
+"isActive": true
+}
+}
+json
 
 
 Prueba con cURL
 
-# PRUEBA CON POSTMAN
+curl --location 'localhost:8012/users/ba3eb019-b92b-411e-b6ee-597f80018114'
+
+nota: colocar id obtenido del resultado del guardado del usuario, sino responde que no existe
+
+# PRUEBA CON POSTMAN SAVE USER
 
 IMPORTAR EL SIGUIENTE CURL EN LA HERRAMIENTA
 AJUSTAR PARAMETROS SEGUN SU PREFERENCIA
@@ -170,7 +246,7 @@ curl --location 'localhost:8012/users' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 "name": "ferwis anazco",
-"email": "ferwis@prueba.com",
+"email": "ferwis@pruebaa.com",
 "password": "prueba123456",
 "phones": [
 {
@@ -180,7 +256,6 @@ curl --location 'localhost:8012/users' \
 }
 ]
 }'
-
 🔐 Validaciones
 Email: Formato válido y único en el sistema
 
@@ -194,6 +269,11 @@ Nombre: No vacío
 
 Teléfonos: Lista opcional con formato específico
 
+# PRUEBA CON POSTMAN GET USERS
+
+curl --location 'localhost:8012/users'
+
+ 
 🛠️ Desarrollo Adicional
 Para contribuir o personalizar:
 

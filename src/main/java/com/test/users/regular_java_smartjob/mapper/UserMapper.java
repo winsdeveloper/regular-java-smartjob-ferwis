@@ -31,4 +31,12 @@ public interface UserMapper {
         .map(this::toPhoneResponse)
         .collect(Collectors.toList());
   }
+  default List<UserResponse> toUserResponseList(List<User> users) {
+    if (users == null) {
+      return null;
+    }
+    return users.stream()
+        .map(this::toResponse)
+        .collect(Collectors.toList());
+  }
 }

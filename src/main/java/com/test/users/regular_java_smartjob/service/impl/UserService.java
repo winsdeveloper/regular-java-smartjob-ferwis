@@ -15,6 +15,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -44,10 +47,48 @@ public class UserService implements IUserService {
       user.setToken(tokenProvider.generateToken(request.email()));
       User savedUser = userRepository.save(user);
 
+      log.info("createUser ended, response: {}", savedUser.toString() );
 
       // retorno respuesta exitosa
-      return ApiResponse.success("Usuario con id: "+savedUser.getId()+" guardado exitosamente"
-          ,userMapper.toResponse(savedUser));
+      return ApiResponse.success("Usuario con id: " + savedUser.getId() + " guardado exitosamente",
+          userMapper.toResponse(savedUser));
+
+    } catch (DataIntegrityViolationException e) {
+      log.error("Error de integridad de datos al crear usuario: {}", e.getMessage());
+      return ApiResponse.error("Error de integridad en base de datos");
+    } catch (Exception e) {
+      log.error("Error inesperado al crear usuario: {}", e.getMessage());
+      return ApiResponse.error("Error interno al procesar la solicitud");
+    }
+
+  }
+
+  @Override
+  public ApiResponse<List<UserResponse>> getUsers() {
+
+    try {
+      // retorno respuesta exitosa
+      return ApiResponse.success("", userMapper.toUserResponseList(userRepository.findAll()));
+
+    } catch (DataIntegrityViolationException e) {
+      log.error("Error de integridad de datos al crear usuario: {}", e.getMessage());
+      return ApiResponse.error("Error de integridad en base de datos");
+    } catch (Exception e) {
+      log.error("Error inesperado al crear usuario: {}", e.getMessage());
+      return ApiResponse.error("Error interno al procesar la solicitud");
+    }
+  }
+
+  @Override
+  public ApiResponse<UserResponse> getUserById(String id) {
+
+    try {
+      Optional<User> result = userRepository.findById(UUID.fromString(id));
+      return result.map(
+              user -> ApiResponse.success("Usuario con id: " + id + " retornado exitosamente",
+                  userMapper.toResponse(user)))
+          .orElseGet(() -> ApiResponse.error("Usuario no encontrado"));
+      // retorno respuesta exitosa
 
     } catch (DataIntegrityViolationException e) {
       log.error("Error de integridad de datos al crear usuario: {}", e.getMessage());
