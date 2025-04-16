@@ -37,7 +37,6 @@ public class UserService implements IUserService {
       //se realiza mapeo del request al entity
       User user = userMapper.toEntity(request);
       user.setPassword(request.password()); //todo es recomendable encriptar la contrasenia
-     // user.setPassword(passwordEncoder.encode(request.password())); //todo es recomendable encriptar la contrasenia
       user.setLastLogin(LocalDateTime.now());
       user.setCreated(LocalDateTime.now());
       user.setIsActive(true);
