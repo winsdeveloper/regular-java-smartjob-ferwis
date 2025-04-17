@@ -7,6 +7,7 @@ import com.test.users.regular_java_smartjob.dto.response.PhoneResponse;
 import com.test.users.regular_java_smartjob.dto.response.UserResponse;
 import com.test.users.regular_java_smartjob.entity.Phone;
 import com.test.users.regular_java_smartjob.entity.User;
+import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
 
 import java.util.List;

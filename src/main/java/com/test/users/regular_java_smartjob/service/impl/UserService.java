@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 
 @Service
@@ -28,42 +29,39 @@ import java.util.UUID;
 public class UserService implements IUserService {
   private final UserRepository userRepository;
   private final UserMapper userMapper;
-  //private final PasswordEncoder passwordEncoder;
   private final JwtTokenProvider tokenProvider;
 
 
+  @Override
   public ApiResponse<UserResponse> createUser(UserRequest request) {
-      //verfica si el email existe
-      if (userRepository.existsByEmail(request.email())) {
-        throw new BusinessException(ExceptionMessageUtils.EMAIL_ALREADY_EXISTS);
-      }
-
-      //se realiza mapeo del request al entity
-      User user = userMapper.toEntity(request);
-      user.setPassword(request.password()); //todo es recomendable encriptar la contrasenia
-      user.setLastLogin(LocalDateTime.now());
-      user.setCreated(LocalDateTime.now());
-      user.setIsActive(true);
-      //se persiste el usuario con el token
-      user.setToken(tokenProvider.generateToken(request.email()));
-      User savedUser = userRepository.save(user);
-
-      log.info("createUser ended, response: {}", savedUser.toString() );
-      // retorno respuesta exitosa
-      return ApiResponse.success("Usuario con id: " + savedUser.getId() + " guardado exitosamente",
-          userMapper.toResponse(savedUser));
+    return Optional.of(request)
+        .filter(req -> !userRepository.existsByEmail(req.email()))
+        .map(req -> {
+          User user = buildUserEntity(req);
+          User savedUser = userRepository.save(user);
+          log.info("Usuario creado con ID: {}", savedUser.getId());
+          return buildSuccessResponse(savedUser);
+        })
+        .orElseThrow(() -> {
+          log.warn("Intento de registro con email existente: {}", request.email());
+          return new BusinessException(ExceptionMessageUtils.EMAIL_ALREADY_EXISTS);
+        });
   }
-
   @Override
   public ApiResponse<List<UserResponse>> getUsers() {
-      log.info("getUsers ended");
-    List<User> users = userRepository.findAll();
-
-    if (users.isEmpty()) {
-      log.warn("No se encontraron usuarios registrados");
-      throw new NoSuchElementException(ExceptionMessageUtils.NO_USERS_FOUND);
-    }
-      return ApiResponse.success("", userMapper.toUserResponseList(userRepository.findAll()));
+    return Optional.of(userRepository.findAll())
+        .filter(Predicate.not(List::isEmpty))
+        .map(users -> {
+          log.info("Obtenidos {} usuarios", users.size());
+          return ApiResponse.success(
+              "Usuarios obtenidos exitosamente",
+              userMapper.toUserResponseList(users)
+          );
+        })
+        .orElseThrow(() -> {
+          log.warn("No se encontraron usuarios registrados");
+          return new NoSuchElementException(ExceptionMessageUtils.NO_USERS_FOUND);
+        });
   }
 
 
@@ -77,5 +75,27 @@ public class UserService implements IUserService {
                 userMapper.toResponse(user)))
         .orElseThrow(() -> new BusinessException("Usuario no encontrado"));
     // retorno respuesta exitosa
+  }
+
+// metodos auxiliares para create user
+  private User buildUserEntity(UserRequest request) {
+    return userMapper.toEntity(request).toBuilder()
+        .password(request.password()) //todo se recomienda encriptar
+        .lastLogin(LocalDateTime.now())
+        .created(LocalDateTime.now())
+        .isActive(true)
+        .token(tokenProvider.generateToken(request.email()))
+        .build();
+  }
+
+  private ApiResponse<UserResponse> buildSuccessResponse(User savedUser) {
+    String message = String.format(
+        "Usuario con id %s guardado exitosamente",
+        savedUser.getId()
+    );
+    return ApiResponse.success(
+        message,
+        userMapper.toResponse(savedUser)
+    );
   }
 }

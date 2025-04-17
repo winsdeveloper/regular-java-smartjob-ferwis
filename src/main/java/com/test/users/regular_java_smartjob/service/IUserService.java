@@ -9,6 +9,7 @@ import com.test.users.regular_java_smartjob.dto.response.UserResponse;
 import java.util.List;
 
 public interface IUserService {
+
   ApiResponse<UserResponse> createUser(UserRequest userRequest);
 
   ApiResponse<List<UserResponse>> getUsers();
