@@ -138,22 +138,13 @@ json
 
 {
 "status": "success",
-"message": null,
+"message": "Usuario con id: fc2a649c-7db8-4a96-a1ec-63276acd8f9c guardado exitosamente",
 "data": {
-"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-"name": "Nombre del usuario",
-"email": "email@valido.com",
-"phones": [
-{
-"number": "1234567",
-"citycode": "1",
-"contrycode": "57"
-}
-],
-"created": "2025-04-15T12:00:00",
-"modified": "2025-04-15T12:00:00",
-"lastLogin": "2025-04-15T12:00:00",
-"token": "eyJhbGciOiJIUzUxMiJ9...",
+"id": "fc2a649c-7db8-4a96-a1ec-63276acd8f9c",
+"created": "2025-04-17T18:11:43.509235",
+"modified": "2025-04-17T18:11:43.509235",
+"lastLogin": "2025-04-17T18:11:43.5026244",
+"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZXJ3aXMyQHBydWViMWEuY29tIiwiaWF0IjoxNzQ0OTI3OTAzLCJleHAiOjE3NDUwMTQzMDN9.DVVOrJPoldsgtpMcqE_TAuv3UZLBldI8FdjOFVjSwSXz4WiZxr4SJ13lMOq3j78ITr12eAAsA33tRrgo1QYaIA",
 "isActive": true
 }
 }
@@ -168,66 +159,39 @@ json
 "message": "",
 "data": [
 {
-"id": "5c99250c-afe4-463a-ba40-7eabec482c36",
-"name": "ferwis anazco",
-"email": "ferwis@prueba.com",
-"phones": [
-{
-"number": "1234567",
-"cityCode": null,
-"countryCode": null
-}
-],
-"created": "2025-04-16T09:48:46.659575",
-"modified": "2025-04-16T09:48:46.659575",
-"lastLogin": "2025-04-16T09:48:46.395424",
-"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZXJ3aXNAcHJ1ZWJhLmNvbSIsImlhdCI6MTc0NDgxMTMyNiwiZXhwIjoxNzQ0ODk3NzI2fQ.6yNcnBjM8tbyQltJK9qZVINr-Bsa-GyyudtAF8hWYC4xgr_MSaoc7ml28CLUuNNBkxPAn4s8Ig3oPVqMcoC6Lg",
+"id": "3f53aea2-7db0-45e9-87ff-173fc29055c6",
+"created": "2025-04-17T18:11:15.620214",
+"modified": "2025-04-17T18:11:15.620214",
+"lastLogin": "2025-04-17T18:11:15.411631",
+"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZXJ3aXNAcHJ1ZWIxYS5jb20iLCJpYXQiOjE3NDQ5Mjc4NzUsImV4cCI6MTc0NTAxNDI3NX0.UARiCQ0Wcrmj0l5FonnG5KrMYWVPaRTVbgQDcGctOdNp_whTGB9yL4rh40VvEFegyw9F2835OWmRuosP2-r2XA",
 "isActive": true
 },
 {
-"id": "bdacc397-f50a-49b6-8273-a00745a3b71b",
-"name": "ferwis anazco",
-"email": "ferwis@pruebaa.com",
-"phones": [
-{
-"number": "1234567",
-"cityCode": null,
-"countryCode": null
-}
-],
-"created": "2025-04-16T09:49:02.712841",
-"modified": "2025-04-16T09:49:02.712841",
-"lastLogin": "2025-04-16T09:49:02.706494",
-"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZXJ3aXNAcHJ1ZWJhYS5jb20iLCJpYXQiOjE3NDQ4MTEzNDIsImV4cCI6MTc0NDg5Nzc0Mn0.QwVDRBcZ_sIOn0ukCUwXdPfVa07Ywa-tPFkfggAPyl8O__k2no8fP8zkemuGn_zyubbXt0TA-2ba8F4ZV73zPA",
+"id": "fc2a649c-7db8-4a96-a1ec-63276acd8f9c",
+"created": "2025-04-17T18:11:43.509235",
+"modified": "2025-04-17T18:11:43.509235",
+"lastLogin": "2025-04-17T18:11:43.502624",
+"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZXJ3aXMyQHBydWViMWEuY29tIiwiaWF0IjoxNzQ0OTI3OTAzLCJleHAiOjE3NDUwMTQzMDN9.DVVOrJPoldsgtpMcqE_TAuv3UZLBldI8FdjOFVjSwSXz4WiZxr4SJ13lMOq3j78ITr12eAAsA33tRrgo1QYaIA",
 "isActive": true
 }
 ]
 }
-
 3. obtener usuario by id GET /users/{ID}
 
 # Response Exitosa (200 OK):
 {
 "status": "success",
-"message": "Usuario con id: ffa7648d-a68e-4778-8552-4f34071e9366 retornado exitosamente",
+"message": "Usuario con id: 3f53aea2-7db0-45e9-87ff-173fc29055c6 retornado exitosamente",
 "data": {
-"id": "ffa7648d-a68e-4778-8552-4f34071e9366",
-"name": "ferwis anazco",
-"email": "ferwis@pruebaa.com",
-"phones": [
-{
-"number": "1234567",
-"cityCode": null,
-"countryCode": null
-}
-],
-"created": "2025-04-16T10:21:56.609684",
-"modified": "2025-04-16T10:21:56.609684",
-"lastLogin": "2025-04-16T10:21:55.998695",
-"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZXJ3aXNAcHJ1ZWJhYS5jb20iLCJpYXQiOjE3NDQ4MTMzMTUsImV4cCI6MTc0NDg5OTcxNX0.TQZvHq29hQtLRxL95FXEaOPOVJM1ozPNeiJ3NlJTZrJLUyszS5a6LkRgQP37dnJ4fCuOI3rR24N5j16XeYOHwg",
+"id": "3f53aea2-7db0-45e9-87ff-173fc29055c6",
+"created": "2025-04-17T18:11:15.620214",
+"modified": "2025-04-17T18:11:15.620214",
+"lastLogin": "2025-04-17T18:11:15.411631",
+"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZXJ3aXNAcHJ1ZWIxYS5jb20iLCJpYXQiOjE3NDQ5Mjc4NzUsImV4cCI6MTc0NTAxNDI3NX0.UARiCQ0Wcrmj0l5FonnG5KrMYWVPaRTVbgQDcGctOdNp_whTGB9yL4rh40VvEFegyw9F2835OWmRuosP2-r2XA",
 "isActive": true
 }
 }
+
 json
 
 

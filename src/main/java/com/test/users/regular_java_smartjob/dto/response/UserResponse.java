@@ -6,9 +6,6 @@ import java.util.UUID;
 
 public record UserResponse(
     UUID id,
-    String name,
-    String email,
-    List<PhoneResponse> phones,
     LocalDateTime created,
     LocalDateTime modified,
     LocalDateTime lastLogin,

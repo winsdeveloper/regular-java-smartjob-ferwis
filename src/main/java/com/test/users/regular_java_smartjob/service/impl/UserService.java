@@ -9,13 +9,15 @@ import com.test.users.regular_java_smartjob.entity.User;
 import com.test.users.regular_java_smartjob.mapper.UserMapper;
 import com.test.users.regular_java_smartjob.repository.UserRepository;
 import com.test.users.regular_java_smartjob.service.IUserService;
+import com.test.users.regular_java_smartjob.utils.BusinessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-
+import com.test.users.regular_java_smartjob.utils.ExceptionMessageUtils;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,10 +33,9 @@ public class UserService implements IUserService {
 
 
   public ApiResponse<UserResponse> createUser(UserRequest request) {
-    try {
       //verfica si el email existe
       if (userRepository.existsByEmail(request.email())) {
-        return ApiResponse.error("El correo ya registrado");
+        throw new BusinessException(ExceptionMessageUtils.EMAIL_ALREADY_EXISTS);
       }
 
       //se realiza mapeo del request al entity
@@ -48,54 +49,33 @@ public class UserService implements IUserService {
       User savedUser = userRepository.save(user);
 
       log.info("createUser ended, response: {}", savedUser.toString() );
-
       // retorno respuesta exitosa
       return ApiResponse.success("Usuario con id: " + savedUser.getId() + " guardado exitosamente",
           userMapper.toResponse(savedUser));
-
-    } catch (DataIntegrityViolationException e) {
-      log.error("Error de integridad de datos al crear usuario: {}", e.getMessage());
-      return ApiResponse.error("Error de integridad en base de datos");
-    } catch (Exception e) {
-      log.error("Error inesperado al crear usuario: {}", e.getMessage());
-      return ApiResponse.error("Error interno al procesar la solicitud");
-    }
-
   }
 
   @Override
   public ApiResponse<List<UserResponse>> getUsers() {
+      log.info("getUsers ended");
+    List<User> users = userRepository.findAll();
 
-    try {
-      // retorno respuesta exitosa
-      return ApiResponse.success("", userMapper.toUserResponseList(userRepository.findAll()));
-
-    } catch (DataIntegrityViolationException e) {
-      log.error("Error de integridad de datos al crear usuario: {}", e.getMessage());
-      return ApiResponse.error("Error de integridad en base de datos");
-    } catch (Exception e) {
-      log.error("Error inesperado al crear usuario: {}", e.getMessage());
-      return ApiResponse.error("Error interno al procesar la solicitud");
+    if (users.isEmpty()) {
+      log.warn("No se encontraron usuarios registrados");
+      throw new NoSuchElementException(ExceptionMessageUtils.NO_USERS_FOUND);
     }
+      return ApiResponse.success("", userMapper.toUserResponseList(userRepository.findAll()));
   }
+
 
   @Override
   public ApiResponse<UserResponse> getUserById(String id) {
 
-    try {
-      Optional<User> result = userRepository.findById(UUID.fromString(id));
-      return result.map(
-              user -> ApiResponse.success("Usuario con id: " + id + " retornado exitosamente",
-                  userMapper.toResponse(user)))
-          .orElseGet(() -> ApiResponse.error("Usuario no encontrado"));
-      // retorno respuesta exitosa
+    Optional<User> result = userRepository.findById(UUID.fromString(id));
 
-    } catch (DataIntegrityViolationException e) {
-      log.error("Error de integridad de datos al crear usuario: {}", e.getMessage());
-      return ApiResponse.error("Error de integridad en base de datos");
-    } catch (Exception e) {
-      log.error("Error inesperado al crear usuario: {}", e.getMessage());
-      return ApiResponse.error("Error interno al procesar la solicitud");
-    }
+    return result.map(
+            user -> ApiResponse.success("Usuario con id: " + id + " retornado exitosamente",
+                userMapper.toResponse(user)))
+        .orElseThrow(() -> new BusinessException("Usuario no encontrado"));
+    // retorno respuesta exitosa
   }
 }
