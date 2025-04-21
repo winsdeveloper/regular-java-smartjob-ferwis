@@ -58,7 +58,6 @@ public class GlobalExceptionHandler {
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public ApiResponse<Void> handleAllExceptions(Exception ex) {
     log.error("Error generico: {}", ex.getMessage());
-    log.error("Error generico, traza : {}", (Object) ex.getStackTrace());
     return ApiResponse.error(ExceptionMessageUtils.INTERNAL_SERVER_ERROR);
   }
 }
