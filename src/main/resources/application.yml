@@ -33,11 +33,13 @@ logging:
 #================ Configuracion OpenAPI =================#
 springdoc:
   swagger-ui:
-    path: /api-docs
-    tags-sorter: alpha
-    operations-sorter: alpha
+    path: /swagger-ui.html
+    enabled: true
   api-docs:
-    path: /api-docs.json
+    path: /api-docs
+    enabled: true
+    default-consumes-media-type: application/json
+    default-produces-media-type: application/json
   info:
     title: API de Gestión de Usuarios - Regular Java SmartJob
     version: 1.0.0
