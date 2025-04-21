@@ -1,6 +1,7 @@
 server:
   port: 8012
-  #================ Configuracion spring =================#
+
+#================ Configuracion spring =================#
 spring:
   application:
     name: regular-java-smartjob
@@ -19,11 +20,32 @@ spring:
       ddl-auto: update
     show-sql: true
 
+#================ Configuracion JWT =================#
 jwt:
   secret: 8Zl7W8Lg+3+mGNjWY6uTKCPAQqGs8QHdEKUAMuLWHQ0qhcA8L3+HN6iXwdIB9P3m8tFcDzvpDnBjtssACbK2MQ==
   expiration: 86400000 # 24h
 
+#================ Configuracion Logging =================#
 logging:
   level:
     root: INFO
-    com.integration.specialist: DEBUG
+    com.test.users.regular_java_smartjob: DEBUG
+#================ Configuracion OpenAPI =================#
+springdoc:
+  swagger-ui:
+    path: /api-docs
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /api-docs.json
+  info:
+    title: API de Gestión de Usuarios - Regular Java SmartJob
+    version: 1.0.0
+    description: API RESTful para la creación y gestión de usuarios con autenticación JWT
+    contact:
+      name: Ferwis Anazco
+      email: ferwis.89@gmail.com
+      url: https://github.com/winsdeveloper/regular-java-smartjob-ferwis
+    license:
+      name: Apache 2.0
+      url: https://www.apache.org/licenses/LICENSE-2.0.html
