@@ -243,3 +243,11 @@ Para contribuir o personalizar:
 
 Configuración JWT:
 Modifica jwt.secret y jwt.expiration en application.properties
+
+## 🧪 Ejecución de Pruebas Unitarias
+
+Para ejecutar las pruebas unitarias del proyecto:
+
+1. **Todas las pruebas**:
+   ```bash
+   mvn test
