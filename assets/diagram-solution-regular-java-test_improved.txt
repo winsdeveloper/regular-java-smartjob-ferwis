@@ -1,0 +1,38 @@
++------------------------------------------------+
+|                 UserController                 |
++------------------------------------------------+
+| + registerUser(UserRequest): ApiResponse      |
+| + getUsers(): ApiResponse<List<UserResponse>> |
+| + getUserById(String): ApiResponse            |
++------------------------------------------------+
+         ▲                ▲                ▲
+         |                |                |
+         |                |                |
++----------------+ +----------------+ +----------------+
+|   IUserService | |   UserRequest  | |  UserResponse  |
++----------------+ +----------------+ +----------------+
+| + createUser() | | (atributos)    | | (atributos)    |
+| + getUsers()   | +----------------+ +----------------+
+| + getUserById()|                         ▲
++----------------+                         |
+         ▲                                |
+         |                                |
++----------------+                  +----------------+
+|   UserService  |                  |    ApiResponse |
++----------------+                  +----------------+
+| - repository   |                  | + data         |
+| - mapper       |                  | + message      |
+| + createUser() |                  | + status       |
+| + getUsers()   |                  +----------------+
+| + getUserById()|
++----------------+
+         ▲
+         |
++----------------+
+| UserRepository |
++----------------+
+| + save()       |
+| + findByEmail()|
+| + findAll()    |
+| + findById()   |
++----------------+
